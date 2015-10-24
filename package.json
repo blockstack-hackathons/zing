@@ -2,6 +2,10 @@
   "name": "angularjs-seed",
   "description": "A starter project for AngularJS",
   "repository": "https://github.com/angular/angular-seed",
+  "scripts": {
+    "bundle": "NODE_ENV=production browserify bundle-recipe.js -o js/bundle.js",
+    "babel": "babel --watch jsx --out-dir js"
+  },
   "devDependencies": {
     "phantomjs": "1.9.1-0",
     "karma": "~0.10",
@@ -9,5 +13,9 @@
     "karma-jasmine": "~0.1",
     "karma-ng-scenario": "~0.1",
     "express": "*"
+  },
+  "dependencies": {
+    "react": "^0.14.0",
+    "react-tap-event-plugin": "^0.2.1"
   }
 }
