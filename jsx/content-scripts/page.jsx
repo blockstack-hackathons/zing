@@ -12,6 +12,9 @@ var styles = {
         width: '350px',
         margin: '-200px 0 0 -175px',
         zIndex: '999999',
+        color: 'rgba(255,255,255,1)',
+        fontFamily: 'Open Sans, sans-serif',
+        fontWeight: '400',
         overflow: 'hidden'
     },
     modalDialog: {
@@ -50,12 +53,15 @@ var styles = {
         padding: '6px 12px',
         fontSize: '14px',
         lineHeight: '1.42857143',
-        color: '#555',
-        backgroundColor: '#fff',
+        color: 'rgba(255,255,255,1)',
+        backgroundColor: 'transparent',
         backgroundImage: 'none',
-        border: '1px solid #ccc',
+        border: 'none',
         borderRadius: '4px',
-        boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075)'
+        boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075)',
+        'focus': {
+            border: 'none',
+        }
     },
     zingLogoReversed: {
         display: 'block',
@@ -67,7 +73,42 @@ var styles = {
         fontFamily: 'Open Sans, sans-serif',
         fontWeight: '400',
         color: 'rgba(255,255,255,1)'
+    },
+    centerWrap: {
+        display: 'block',
+        margin: '0 auto',
+        fontFamily: 'Open Sans, sans-serif',
+        fontWeight: '400',
+        color: 'rgba(255,255,255,1)'
+    },
+    sendMoney: {
+        display: 'block',
+        margin: '0 auto',
+        fontFamily: 'Open Sans, sans-serif',
+        fontWeight: '400',
+        color: 'rgba(255,255,255,1)',
+        textAlign: 'center',
+        marginTop: '15px'
+    },
+    atUsername: {
+        display: 'block',
+        margin: '0 auto',
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeight: '400',
+        color: 'rgba(255,255,255,1)',
+        textAlign: 'center',
+        marginTop: '15px'
+    },
+    sourceFont: {
+        display: 'block',
+        margin: '0 auto',
+        fontFamily: 'Source Code Pro, sans-serif',
+        fontWeight: '400',
+        color: '#a9c3f4',
+        textAlign: 'center',
+        marginTop: '3px'
     }
+
 }
 
 function sendMoney(recipientAddress, amount, callback) {
@@ -226,12 +267,12 @@ var PaymentModal = React.createClass({
                             </h3>
 
                             { this.state.recipientAddress ?
-                            <div>
-                                <p style={styles.globalType}>Send money to:</p>
+                            <div className="center-wrap" style={styles.centerWrap}>
+                                <p className="send-money" style={styles.sendMoney}>Send money to</p>
 
                                 <div>
-                                    <h4>@{this.state.username}</h4>
-                                    <p>{this.state.recipientAddress}</p>
+                                    <h4 className="at-username" style={styles.atUsername}>@{this.state.username}</h4>
+                                    <p className="source-font" style={styles.sourceFont}>{this.state.recipientAddress}</p>
                                 </div>
 
                                 <div className="input-group">
