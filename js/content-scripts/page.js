@@ -48,17 +48,18 @@ var styles = {
         opacity: '0.2'
     },
     formControl: {
+        marginLeft: '38px',
         padding: '6px 12px',
         fontSize: '150px',
+        letterSpacing: '-1px',
         color: 'rgba(255,255,255,1)',
         backgroundColor: 'transparent',
         backgroundImage: 'none',
         border: 'none',
         borderRadius: '4px',
         boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075)',
-        'focus': {
-            border: 'none'
-        }
+        outline: '0',
+        textAlign: 'center'
     },
     zingLogoReversed: {
         display: 'block',
@@ -116,6 +117,15 @@ var styles = {
         color: 'rgba(255,255,255,1)',
         textAlign: 'center',
         marginTop: '20px'
+    },
+    inputGroupAddon: {
+        marginLeft: '15px',
+        position: 'absolute',
+        marginTop: '25px'
+    },
+    btnSend: {
+        display: 'block',
+        width: '100%'
     }
 
 };
@@ -349,11 +359,11 @@ var PaymentModal = React.createClass({
                                     { className: 'input-group', style: styles.inputGroup },
                                     React.createElement(
                                         'span',
-                                        { className: 'input-group-addon' },
+                                        { className: 'input-group-addon', style: styles.inputGroupAddon },
                                         '$ '
                                     ),
-                                    React.createElement('input', { type: 'text', className: 'form-control', autofocus: true, style: styles.formControl,
-                                        placeholder: 'Amount', value: this.state.paymentAmount,
+                                    React.createElement('input', { type: 'text', className: 'form-control', maxlength: '3', autocomplete: 'off', style: styles.formControl,
+                                        placeholder: '0', value: this.state.paymentAmount,
                                         onChange: this.updateValue })
                                 )
                             ) : React.createElement(
@@ -378,7 +388,7 @@ var PaymentModal = React.createClass({
                             { className: 'modal-footer', style: styles.modalFooter },
                             React.createElement(
                                 'button',
-                                { type: 'button', className: 'btn', onClick: this.submitSendForm },
+                                { type: 'button', className: 'btn', style: styles.btnSend, onClick: this.submitSendForm },
                                 'Send'
                             )
                         ) : null
