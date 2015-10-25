@@ -31,6 +31,7 @@
         "https://*/*"
       ],
       "css": [
+        "css/page-addon.css"
       ],
       "js": [
         "lib/jquery/jquery.min.js",

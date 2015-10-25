@@ -63,6 +63,21 @@ var styles = {
         outline: '0',
         textAlign: 'center'
     },
+    formControlImportant: {
+        marginLeft: '38px !important',
+        marginTop: '15px !important',
+        padding: '6px 12px !important',
+        fontSize: '150px !important',
+        letterSpacing: '-1px !important',
+        color: 'rgba(255,255,255,1) !important',
+        backgroundColor: 'transparent !important',
+        backgroundImage: 'none !important',
+        border: 'none !important',
+        borderRadius: '4px !important',
+        boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075) !important',
+        outline: '0 !important',
+        textAlign: 'center !important'
+    },
     zingLogoReversed: {
         display: 'block',
         fill: 'rgba(255,255,255,1)', 
@@ -185,16 +200,10 @@ function getTicker(callback) {
     })
 }
 
-function focusFunction() {
-    document.getElementById("myInput").style.border = "none";
-}
-
 function lookupUserProfile(service, username, callback) {
    var query = service + ':' + username
 
     var url = 'https://api.onename.com/v1/search/payment?query=' + query
-
-    console.log(url)
 
     $.ajax({
         type: 'GET',
@@ -203,7 +212,6 @@ function lookupUserProfile(service, username, callback) {
         crossDomain: true,
         success: function(data) {
             var item = data.results[0]
-            console.log(item)
             var response = item[Object.keys(item)[0]]
             callback(null, response)
         },
@@ -242,7 +250,6 @@ var PaymentModal = React.createClass({
             if (err) {
                 console.log(err)
             } else {
-                console.log(profile)
                 _this.setState({
                     recipientAddress: profile.bitcoin.address
                 })
@@ -301,8 +308,14 @@ var PaymentModal = React.createClass({
 
                                 <div className="input-group" style={styles.inputGroup}>
                                     <span className="input-group-addon" style={styles.inputGroupAddon}>$ </span>
-                                    <input type="text" className="form-control" maxlength="3" autocomplete="off" onfocus={focusFunction()} style={styles.formControl}
-                                        placeholder="0" value={this.state.paymentAmount}
+                                    <input
+                                        type="text"
+                                        className="form-control money-input"
+                                        maxlength="3"
+                                        autocomplete="off"
+                                        style={styles.formControl}
+                                        placeholder="0"
+                                        value={this.state.paymentAmount}
                                         onChange={this.updateValue} />
                                 </div>
                             </div>

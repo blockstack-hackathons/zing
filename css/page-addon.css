@@ -1,0 +1,3 @@
+input:focus.money-input, textarea:focus.money-input,  div[contenteditable="true"]:focus.money-input,  div[contenteditable="true"].fake-focus.money-input {
+    border: none !important;
+}
