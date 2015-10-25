@@ -4,6 +4,8 @@ var SATOSHIS_PER_BITCOIN = 100000000
 var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
 
 var styles = {
+    
+    
     modal: {
         position: 'fixed',
         display: 'table',
@@ -256,25 +258,6 @@ var PaymentModal = React.createClass({
                   </div>
                 </div>
             </div>
-
-
-
-<script type="text/javascript">
-  WebFontConfig = {
-    google: { families: [ 'Montserrat:400,700:latin', 'Open+Sans:400,300,300italic,400italic,600,600italic:latin' ] }
-  };
-  (function() {
-    var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-    wf.type = 'text/javascript';
-    wf.async = 'true';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(wf, s);
-  })(); </script>
-
-
-
         )
     }
 })

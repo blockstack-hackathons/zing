@@ -4,6 +4,7 @@ var SATOSHIS_PER_BITCOIN = 100000000;
 var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage);
 
 var styles = {
+
     modal: {
         position: 'fixed',
         display: 'table',
@@ -58,12 +59,13 @@ var styles = {
     },
     zingLogoReversed: {
         display: 'block',
-        fill: 'rgba(255,255,255,1);',
+        fill: 'rgba(255,255,255,1)',
         width: '47px;',
         margin: '0 auto'
     },
     userNotFound: {
-        fontFamily: 'Montserrat, sans-serif'
+        fontFamily: 'Open Sans, sans-serif',
+        fontWeight: '300'
     }
 };
 
