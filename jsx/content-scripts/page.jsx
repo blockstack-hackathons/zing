@@ -63,7 +63,7 @@ var styles = {
         width: '47px;',
         margin: '0 auto'
     },
-    userNotFound: {
+    globalType: {
         fontFamily: 'Open Sans, sans-serif',
         fontWeight: '400',
         color: 'rgba(255,255,255,1)'
@@ -227,7 +227,7 @@ var PaymentModal = React.createClass({
 
                             { this.state.recipientAddress ?
                             <div>
-                                <p>Send money to:</p>
+                                <p style={styles.globalType}>Send money to:</p>
 
                                 <div>
                                     <h4>@{this.state.username}</h4>
@@ -242,9 +242,9 @@ var PaymentModal = React.createClass({
                                 </div>
                             </div>
                             :
-                            <div className="user-not-found" style={styles.userNotFound}>
-                                <p>{this.state.color || "white"}Could not find any payment info for this user.</p>
-                                <p>To send them money, make sure they have a blockchain ID with a Bitcoin address and a {this.props.service} verification.</p>
+                            <div className="global-type" style={styles.globalType}>
+                                <p style={styles.globalType}>Could not find any payment info for this user.</p>
+                                <p style={styles.globalType}>To send them money, make sure they have a blockchain ID with a Bitcoin address and a {this.props.service} verification.</p>
                             </div>
                             }
                         </div>

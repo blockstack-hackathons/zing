@@ -62,7 +62,7 @@ var styles = {
         width: '47px;',
         margin: '0 auto'
     },
-    userNotFound: {
+    globalType: {
         fontFamily: 'Open Sans, sans-serif',
         fontWeight: '400',
         color: 'rgba(255,255,255,1)'
@@ -252,7 +252,7 @@ var PaymentModal = React.createClass({
                                 null,
                                 React.createElement(
                                     'p',
-                                    null,
+                                    { style: styles.globalType },
                                     'Send money to:'
                                 ),
                                 React.createElement(
@@ -284,16 +284,15 @@ var PaymentModal = React.createClass({
                                 )
                             ) : React.createElement(
                                 'div',
-                                { className: 'user-not-found', style: styles.userNotFound },
+                                { className: 'global-type', style: styles.globalType },
                                 React.createElement(
                                     'p',
-                                    null,
-                                    this.state.color || "white",
+                                    { style: styles.globalType },
                                     'Could not find any payment info for this user.'
                                 ),
                                 React.createElement(
                                     'p',
-                                    null,
+                                    { style: styles.globalType },
                                     'To send them money, make sure they have a blockchain ID with a Bitcoin address and a ',
                                     this.props.service,
                                     ' verification.'
