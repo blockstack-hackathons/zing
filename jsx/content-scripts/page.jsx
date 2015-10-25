@@ -15,7 +15,7 @@ var styles = {
     },
     modalContent: {
         position: 'relative',
-        backgroundColor: '#fff',
+        backgroundColor: 'rgba(46,113,242,1)',
         backgroundClip: 'padding-box',
         border: '1px solid rgba(0,0,0,0.2)',
         borderRadius: '6px'
