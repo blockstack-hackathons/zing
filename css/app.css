@@ -4,6 +4,7 @@ body {
 	position: relative;
 	float: right;
 	overflow-x: hidden;
+	min-width: 400px;
 }
 
 .btn-bottom {

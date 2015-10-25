@@ -198,14 +198,14 @@ function lookupUserProfile(service, username, callback) {
         'twitter:ryaneshea': {
             profile: {
                 bitcoin: {
-                    address: '1LFS37yRSibwbf8CnXeCn5t1GKeTEZMmu9'
+                    address: '1DyVgc6L2kXnv96R4FCzNaMQ8iWPzHQX3T'
                 }
             }
         },
         'github:shea256': {
             profile: {
                 bitcoin: {
-                    address: '1LFS37yRSibwbf8CnXeCn5t1GKeTEZMmu9'
+                    address: '1DyVgc6L2kXnv96R4FCzNaMQ8iWPzHQX3T'
                 }
             }
         },
