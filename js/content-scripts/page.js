@@ -162,30 +162,65 @@ function getTicker(callback) {
 }
 
 function lookupUserProfile(service, username, callback) {
-    var query = service + ':' + username;
+    /*var query = service + ':' + username
+      var url = 'http://search.onename.com/search/payment?query=' + query
+      console.log(url)
+      $.ajax({
+         type: 'GET',
+         dataType: 'json',
+         url: url,
+         crossDomain: true,
+         success: function(results) {
+             console.log(results)
+             var item = results[0]
+             console.log(item)
+             var response = item[Object.keys(item)[0]]
+             callback(null, response)
+         },
+         error: function(err) {
+             console.log(err)
+             jsonError = JSON.stringify(err)
+             callback(jsonError, null)
+         }
+     })*/
 
-    var url = 'http://search.onename.com/search/payment?query=' + query;
-
-    console.log(url);
-
-    $.ajax({
-        type: 'GET',
-        dataType: 'json',
-        url: url,
-        crossDomain: true,
-        success: function success(results) {
-            console.log(results);
-            var item = results[0];
-            console.log(item);
-            var response = item[Object.keys(item)[0]];
-            callback(null, response);
+    var directory = {
+        'twitter:ryaneshea': {
+            profile: {
+                bitcoin: {
+                    address: '1LFS37yRSibwbf8CnXeCn5t1GKeTEZMmu9'
+                }
+            }
         },
-        error: function error(err) {
-            console.log(err);
-            jsonError = JSON.stringify(err);
-            callback(jsonError, null);
+        'github:shea256': {
+            profile: {
+                bitcoin: {
+                    address: '1LFS37yRSibwbf8CnXeCn5t1GKeTEZMmu9'
+                }
+            }
+        },
+        'twitter:muneeb': {
+            profile: {
+                bitcoin: {
+                    address: '1LNLCwtigWAvLkNakUK4jnmmvdVvmULeES'
+                }
+            }
+        },
+        'github:muneeb-ali': {
+            profile: {
+                bitcoin: {
+                    address: '1LNLCwtigWAvLkNakUK4jnmmvdVvmULeES'
+                }
+            }
         }
-    });
+    };
+
+    var lookupValue = service + ':' + username;
+    if (lookupValue in directory) {
+        callback(null, directory[lookupValue].profile);
+    } else {
+        callback('no record found', null);
+    }
 }
 
 var PaymentModal = React.createClass({
