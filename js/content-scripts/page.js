@@ -3,6 +3,58 @@
 var SATOSHIS_PER_BITCOIN = 100000000;
 var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage);
 
+var styles = {
+    modal: {
+        position: 'fixed',
+        width: '50%',
+        left: '25%',
+        zIndex: '999999',
+        overflow: 'hidden'
+    },
+    modalDialog: {},
+    modalContent: {
+        position: 'relative',
+        backgroundColor: '#fff',
+        backgroundClip: 'padding-box',
+        border: '1px solid rgba(0,0,0,0.2)',
+        borderRadius: '6px'
+    },
+    modalBody: {
+        position: 'relative',
+        padding: '15px'
+    },
+    modalFooter: {
+        padding: '15px',
+        textAlign: 'right',
+        borderTop: '1px solid #e5e5e5'
+    },
+    closeButton: {
+        marginTop: '-2px',
+        cursor: 'pointer',
+        background: 0,
+        border: 0,
+        float: 'right',
+        fontSize: '21px',
+        fontWeight: '700',
+        lineHeight: 1,
+        color: '#000',
+        textShadow: '0 1px 0 #fff',
+        opacity: '0.2'
+    },
+    formControl: {
+        height: '34px',
+        padding: '6px 12px',
+        fontSize: '14px',
+        lineHeight: '1.42857143',
+        color: '#555',
+        backgroundColor: '#fff',
+        backgroundImage: 'none',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075)'
+    }
+};
+
 function sendMoney(recipientAddress, amount, callback) {
     Wallet.loadData(function () {
         SpareCoins.ChromeStorage.get("security", function (data) {
@@ -45,7 +97,7 @@ function getTicker(callback) {
 }
 
 var PaymentModal = React.createClass({
-    displayName: "PaymentModal",
+    displayName: 'PaymentModal',
 
     getInitialState: function getInitialState() {
         return {
@@ -78,83 +130,75 @@ var PaymentModal = React.createClass({
         });
     },
     render: function render() {
-        var modalStyle = {
-            position: 'fixed',
-            width: '50%',
-            left: '25%',
-            zIndex: '999999',
-            overflow: 'hidden'
-        };
-
         return React.createElement(
-            "div",
+            'div',
             null,
             React.createElement(
-                "div",
-                { className: "modal", style: modalStyle },
+                'div',
+                { className: 'modal', style: styles.modal },
                 React.createElement(
-                    "div",
-                    { className: "modal-dialog" },
+                    'div',
+                    { className: 'modal-dialog', style: styles.modalDialog },
                     React.createElement(
-                        "div",
-                        { className: "modal-content" },
+                        'div',
+                        { className: 'modal-content', style: styles.modalContent },
                         React.createElement(
-                            "div",
-                            { className: "modal-body" },
+                            'div',
+                            { className: 'modal-body', style: styles.modalBody },
                             React.createElement(
-                                "button",
-                                { type: "button", className: "close", onClick: this.props.hide },
+                                'button',
+                                { type: 'button', className: 'close', style: styles.closeButton, onClick: this.props.hide },
                                 React.createElement(
-                                    "span",
+                                    'span',
                                     null,
-                                    "×"
+                                    '×'
                                 )
                             ),
                             React.createElement(
-                                "h3",
+                                'h3',
                                 null,
-                                "zing!"
+                                'zing!'
                             ),
                             React.createElement(
-                                "p",
+                                'p',
                                 null,
-                                "Send money to:"
+                                'Send money to:'
                             ),
                             React.createElement(
-                                "div",
+                                'div',
                                 null,
                                 React.createElement(
-                                    "h4",
+                                    'h4',
                                     null,
-                                    "@",
+                                    '@',
                                     this.state.twitterHandle
                                 ),
                                 React.createElement(
-                                    "p",
+                                    'p',
                                     null,
                                     this.state.recipientAddress
                                 )
                             ),
                             React.createElement(
-                                "div",
-                                { className: "input-group" },
+                                'div',
+                                { className: 'input-group' },
                                 React.createElement(
-                                    "span",
-                                    { className: "input-group-addon" },
-                                    "$ "
+                                    'span',
+                                    { className: 'input-group-addon' },
+                                    '$ '
                                 ),
-                                React.createElement("input", { type: "text", className: "form-control",
-                                    placeholder: "Amount", value: this.state.paymentAmount,
+                                React.createElement('input', { type: 'text', className: 'form-control', style: styles.formControl,
+                                    placeholder: 'Amount', value: this.state.paymentAmount,
                                     onChange: this.updateValue })
                             )
                         ),
                         React.createElement(
-                            "div",
-                            { className: "" },
+                            'div',
+                            { className: 'modal-footer', style: styles.modalFooter },
                             React.createElement(
-                                "button",
-                                { type: "button", className: "btn", onClick: this.submitSendForm },
-                                "Send"
+                                'button',
+                                { type: 'button', className: 'btn', onClick: this.submitSendForm },
+                                'Send'
                             )
                         )
                     )
@@ -165,22 +209,22 @@ var PaymentModal = React.createClass({
 });
 
 var TwitterPaymentButton = React.createClass({
-    displayName: "TwitterPaymentButton",
+    displayName: 'TwitterPaymentButton',
 
     render: function render() {
         return React.createElement(
-            "div",
+            'div',
             { style: { paddingTop: '10px' } },
             React.createElement(
-                "button",
-                { onClick: this.props.onClick, className: "u-sizeFull btn primary-btn tweet-action tweet-btn" },
+                'button',
+                { onClick: this.props.onClick, className: 'u-sizeFull btn primary-btn tweet-action tweet-btn' },
                 React.createElement(
-                    "span",
-                    { className: "button-text" },
+                    'span',
+                    { className: 'button-text' },
                     React.createElement(
-                        "span",
+                        'span',
                         null,
-                        "Send Money"
+                        'Send Money'
                     )
                 )
             )
@@ -188,8 +232,24 @@ var TwitterPaymentButton = React.createClass({
     }
 });
 
-var TwitterPageAddition = React.createClass({
-    displayName: "TwitterPageAddition",
+var GithubPaymentButton = React.createClass({
+    displayName: 'GithubPaymentButton',
+
+    render: function render() {
+        return React.createElement(
+            'div',
+            { style: { paddingRight: '5px' } },
+            React.createElement(
+                'button',
+                { onClick: this.props.onClick, className: 'btn btn-sm' },
+                'Send Money'
+            )
+        );
+    }
+});
+
+var GithubPageAddition = React.createClass({
+    displayName: 'GithubPageAddition',
 
     getInitialState: function getInitialState() {
         return {
@@ -200,6 +260,35 @@ var TwitterPageAddition = React.createClass({
         this.setState({
             showPaymentModal: true
         });
+    },
+    hidePaymentModal: function hidePaymentModal() {
+        this.setState({
+            showPaymentModal: false
+        });
+    },
+    render: function render() {
+        return React.createElement(
+            'div',
+            null,
+            React.createElement(GithubPaymentButton, { onClick: this.showPaymentModal }),
+            this.state.showPaymentModal ? React.createElement(PaymentModal, { hide: this.hidePaymentModal }) : null
+        );
+    }
+});
+
+var TwitterPageAddition = React.createClass({
+    displayName: 'TwitterPageAddition',
+
+    getInitialState: function getInitialState() {
+        return {
+            showPaymentModal: false
+        };
+    },
+    showPaymentModal: function showPaymentModal() {
+        this.setState({
+            showPaymentModal: true
+        });
+        $('.modal').show();
         $('body').addClass('modal-enabled');
     },
     hidePaymentModal: function hidePaymentModal() {
@@ -210,7 +299,7 @@ var TwitterPageAddition = React.createClass({
     },
     render: function render() {
         return React.createElement(
-            "div",
+            'div',
             null,
             React.createElement(TwitterPaymentButton, { onClick: this.showPaymentModal }),
             this.state.showPaymentModal ? React.createElement(PaymentModal, { hide: this.hidePaymentModal }) : null
@@ -222,7 +311,8 @@ if (window.location.hostname === 'twitter.com') {
     var buttonElement = document.createElement('div');
     buttonElement.id = 'zing-button';
 
-    document.getElementsByClassName('ProfileMessagingActions')[0].appendChild(buttonElement);
+    var container = document.getElementsByClassName('ProfileMessagingActions')[0];
+    container.appendChild(buttonElement);
     React.render(React.createElement(TwitterPageAddition, {}), document.getElementById('zing-button'));
 
     /*
@@ -231,4 +321,22 @@ if (window.location.hostname === 'twitter.com') {
      document.body.appendChild(modalElement)
     React.render(React.createElement(PaymentModal, {}), document.getElementById('zing-modal'))
     */
-} else {}
+} else if (window.location.hostname === 'github.com') {
+        var buttonElement = document.createElement('div');
+        buttonElement.id = 'zing-button';
+        buttonElement.style.display = 'inline-block';
+
+        var container = document.getElementsByClassName('tabnav')[0].children[0];
+        container.insertBefore(buttonElement, container.firstChild);
+        React.render(React.createElement(GithubPageAddition, {}), document.getElementById('zing-button'));
+    } else {}
+
+$(document).mouseup(function (e) {
+    var container = $('.modal');
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+     && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+            container.hide();
+        }
+});
