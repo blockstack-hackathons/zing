@@ -31,9 +31,9 @@ var styles = {
         padding: '15px'
     },
     modalFooter: {
-        padding: '15px',
-        textAlign: 'right',
-        borderTop: '1px solid #e5e5e5'
+        marginTop: '10px',
+        borderTop: 'none',
+        padding: '0'
     },
     closeButton:  {
         marginTop: '-2px',
@@ -50,6 +50,7 @@ var styles = {
     },
     formControl: {
         marginLeft: '38px',
+        marginTop: '15px',
         padding: '6px 12px',
         fontSize: '150px',
         letterSpacing: '-1px',
@@ -126,7 +127,19 @@ var styles = {
     },
     btnSend: {
         display: 'block',
-        width: '100%'
+        width: '100%',
+        padding: '20px 16px',
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeight: '700',
+        letterSpacing: '2px',
+        fontSize: '10px',
+        color: 'rgba(46,113,242,1)',
+        textTransform: 'uppercase',
+        backgroundColor: 'rgba(255,255,255,1)',
+        backgroundImage: 'none',
+        border: 'none',
+        borderTopRightRadius: '0',
+        borderTopLeftRadius: '0',
     }
 
 }
