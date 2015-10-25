@@ -122,6 +122,10 @@ var styles = {
         marginLeft: '15px',
         position: 'absolute',
         marginTop: '25px'
+    },
+    btnSend: {
+        display: 'block',
+        width: '100%'
     }
 
 };
@@ -361,7 +365,7 @@ var PaymentModal = React.createClass({
                             { className: 'modal-footer', style: styles.modalFooter },
                             React.createElement(
                                 'button',
-                                { type: 'button', className: 'btn', onClick: this.submitSendForm },
+                                { type: 'button', className: 'btn', style: styles.btnSend, onClick: this.submitSendForm },
                                 'Send'
                             )
                         ) : null
