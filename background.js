@@ -13,7 +13,6 @@ function pushTransaction(txSerialized, txHash, txValue, callback) {
 
 		if (data) {
 			// Call the callback function
-			console.log('triggering callback...')
 			callback(true)
 		}
 	})
@@ -44,7 +43,6 @@ function backupPrivateKeys() {
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 	if (message.method === 'pushTransaction') {
 		pushTransaction(message.txSerialized, message.txHash, null, function() {
-			console.log('this is coming back')
 		})
 	}
 	sendResponse(true)
