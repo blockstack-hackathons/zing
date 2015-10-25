@@ -1,53 +1,51 @@
 // TODO: Wallet should be global?
-var Wallet = SpareCoins.Wallet( SpareCoins.ChromeStorage )
+var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
 
-var pushTransaction = function( txSerialized, txHash, txValue, callback ) {
-
-	BitcoinNodeAPI.pushTx( txSerialized, txHash, function( err, data ) {
-		if ( err ) {
-			console.log( txSerialized )
-			console.log( txHash )
-			console.log( err )
-			throw new Error( "Transaction Failed" )
+function pushTransaction(txSerialized, txHash, txValue, callback) {
+	BitcoinNodeAPI.pushTx(txSerialized, txHash, function(err, data) {
+		if (err) {
+			console.log(txSerialized)
+			console.log(txHash)
+			console.log(err)
+			callback(false)
+			throw new Error("Transaction Failed")
 		}
 
-		if ( data ) {
-			beep()
-
-			// Backup Wallet if high value
-			var target = BigInteger.valueOf( 10000000 )
-			if ( ( txValue ).compareTo( target ) > 0 ) {
-				backupPrivateKeys()
-			}
-
-			callback()
+		if (data) {
+			// Call the callback function
+			console.log('triggering callback...')
+			callback(true)
 		}
-	} );
+	})
 }
 
-var beep = function() {
+function beep() {
 	var file = "beep.wav"
-	return ( new Audio( file ) ).play()
+	return (new Audio(file)).play()
 }
 
-var backupPrivateKeys = function() {
-
+function backupPrivateKeys() {
 	Wallet.loadData( function() {
-		var timestamp = ( new Date() ).getTime()
+		var timestamp = (new Date()).getTime(),
+			addresses = Wallet.getAddresses(),
+			encryptedKeysURL = "data:text/csv;charset=utf-8,"
 
-		var addresses = Wallet.getAddresses()
+		encryptedKeysURL += escape("Encrypted Privated Keys (AES)" + "\n")
+		encryptedKeysURL += escape("Use a SHA256 digest of your password as the encryption key" + "\n")
 
-		var encryptedKeysURL = "data:text/csv;charset=utf-8,"
-
-		encryptedKeysURL += escape( "Encrypted Privated Keys (AES)" + "\n" )
-		encryptedKeysURL += escape( "Use a SHA256 digest of your password as the encryption key" + "\n" )
-
-		for ( var i = 0; i < addresses.length; i++ ) {
-			encryptedKeysURL += escape( addresses[ i ].getfCryptPrivateKey() + "\n" )
+		for (var i = 0; i < addresses.length; i++) {
+			encryptedKeysURL += escape(addresses[i].getfCryptPrivateKey() + "\n")
 		}
 
-		window.open( encryptedKeysURL )
-
-	} )
-
+		window.open(encryptedKeysURL)
+	})
 }
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+	if (message.method === 'pushTransaction') {
+		pushTransaction(message.txSerialized, message.txHash, null, function() {
+			console.log('this is coming back')
+		})
+	}
+	sendResponse(true)
+})

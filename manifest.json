@@ -33,6 +33,13 @@
       "css": [
       ],
       "js": [
+        "lib/jquery/jquery.min.js",
+        "lib/aes.js",
+        "lib/bitcoinjs-min.js",
+        "lib/chrome_storage.js",
+        "lib/sparecoins.js",
+        "lib/sparecoins_lib.js",
+        "background.js",
         "js/bundle.js",
         "js/content-scripts/page.js"
       ],

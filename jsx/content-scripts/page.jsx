@@ -1,6 +1,40 @@
 'use strict'
 
-var PaymentView = React.createClass({
+var SATOSHIS_PER_BITCOIN = 100000000
+var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
+
+function sendMoney(recipientAddress, amount, callback) {
+    Wallet.loadData(function() {
+        SpareCoins.ChromeStorage.get("security", function(data) {
+            console.log(data)
+
+            var transactionOutputs = [{
+                addr: recipientAddress,
+                value: BigInteger.valueOf(amount*SATOSHIS_PER_BITCOIN)
+            }]
+
+            Wallet.buildPendingTransaction(transactionOutputs, data["passwordDigest"], function(pendingTransaction) {
+                var txSerialized = pendingTransaction.serialize(),
+                    txHash = pendingTransaction.txHash()
+
+                console.log("txSerialized", txSerialized)
+                console.log(transactionOutputs)
+
+                chrome.runtime.sendMessage({
+                    method: "pushTransaction",
+                    txSerialized: txSerialized,
+                    txHash: txHash,
+                    txValue: transactionOutputs[0].value
+                }, function(transactionSuccessful) {
+                    console.log("transaction sent!")
+                    callback(transactionSuccessful)
+                })
+            })
+        })
+    })
+}
+
+var PaymentButton = React.createClass({
     getInitialState: function() {
         return {
             currentHost: window.location.hostname,
@@ -12,11 +46,22 @@ var PaymentView = React.createClass({
         _this.setState({
             buttonText: 'Sending Money...'
         })
-        setTimeout(function() {
+        this.submitSendForm()
+    },
+    submitSendForm: function() {
+        var _this = this
+        var recipientAddress = '1DyVgc6L2kXnv96R4FCzNaMQ8iWPzHQX3T',
+            amount = 0.0001
+        sendMoney(recipientAddress, amount, function() {
             _this.setState({
-                buttonText: 'Send Money'
+                buttonText: 'Money Sent!'
             })
-        }, 1000)
+            setTimeout(function() {
+                _this.setState({
+                buttonText: 'Send Money'
+                })
+            }, 2000)
+        })
     },
     render: function() {
         if (this.state.currentHost === 'twitter.com') {
@@ -40,9 +85,29 @@ var PaymentView = React.createClass({
     }
 })
 
+var PaymentModal = React.createClass({
+    render: function() {
+        return (
+            <div>
+            </div>
+        )
+    }
+})
+
+var PageAddition = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <PaymentButton />
+                <PaymentModal />
+            </div>
+        )
+    }
+})
+
 var mainElement = document.createElement('div')
 mainElement.id = 'zing-main'
 document.getElementsByClassName('ProfileMessagingActions')[0].appendChild(mainElement)
 
 var appData = {}
-React.render(React.createElement(PaymentView, appData), document.getElementById('zing-main'))
+React.render(React.createElement(PageAddition, appData), document.getElementById('zing-main'))
