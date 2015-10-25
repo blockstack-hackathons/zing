@@ -224,7 +224,7 @@ var PaymentModal = React.createClass({
                                 null,
                                 React.createElement(
                                     'a',
-                                    { href: '/' },
+                                    { href: '', onClick: this.props.hide },
                                     React.createElement(
                                         'svg',
                                         { viewBox: '-349 284.5 92.2 44.5', className: 'zing-logo-reversed', style: styles.zingLogoReversed, alt: 'zing' },
