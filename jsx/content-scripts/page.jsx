@@ -6,16 +6,22 @@ var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage)
 var styles = {
     modal: {
         position: 'fixed',
-        width: '50%',
-        left: '25%',
+        display: 'table',
+        top: '50%',
+        left: '50%',
+        width: '350px',
+        margin: '-200px 0 0 -175px',
         zIndex: '999999',
+        color: 'rgba(255,255,255,1)',
+        fontFamily: 'Open Sans, sans-serif',
+        fontWeight: '400',
         overflow: 'hidden'
     },
     modalDialog: {
     },
     modalContent: {
         position: 'relative',
-        backgroundColor: '#fff',
+        backgroundColor: 'rgba(46,113,242,1)',
         backgroundClip: 'padding-box',
         border: '1px solid rgba(0,0,0,0.2)',
         borderRadius: '6px'
@@ -43,17 +49,76 @@ var styles = {
         opacity: '0.2'
     },
     formControl: {
-        height: '34px',
         padding: '6px 12px',
-        fontSize: '14px',
-        lineHeight: '1.42857143',
-        color: '#555',
-        backgroundColor: '#fff',
+        fontSize: '150px',
+        color: 'rgba(255,255,255,1)',
+        backgroundColor: 'transparent',
         backgroundImage: 'none',
-        border: '1px solid #ccc',
+        border: 'none',
         borderRadius: '4px',
-        boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075)'
+        boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075)',
+        'focus': {
+            border: 'none',
+        }
+    },
+    zingLogoReversed: {
+        display: 'block',
+        fill: 'rgba(255,255,255,1)', 
+        width: '47px;',
+        margin: '3px auto 0 auto'
+    },
+    globalType: {
+        fontFamily: 'Open Sans, sans-serif',
+        fontWeight: '400',
+        color: 'rgba(255,255,255,1)'
+    },
+    centerWrap: {
+        display: 'block',
+        margin: '0 auto',
+        fontFamily: 'Open Sans, sans-serif',
+        fontWeight: '400',
+        color: 'rgba(255,255,255,1)'
+    },
+    sendMoney: {
+        display: 'block',
+        margin: '0 auto',
+        fontSize: '12px',
+        fontFamily: 'Open Sans, sans-serif',
+        fontWeight: '300',
+        color: 'rgba(255,255,255,1)',
+        textAlign: 'center',
+        marginTop: '30px'
+    },
+    atUsername: {
+        display: 'block',
+        margin: '0 auto',
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeight: '400',
+        color: 'rgba(255,255,255,1)',
+        textAlign: 'center',
+        marginTop: '13px'
+    },
+    sourceFont: {
+        display: 'block',
+        margin: '0 auto',
+        fontSize: '12px',
+        fontFamily: 'Source Code Pro, sans-serif',
+        fontWeight: '400',
+        color: '#a9c3f4',
+        textAlign: 'center',
+        marginTop: '4px'
+    },
+    inputGroup: {
+        display: 'block',
+        margin: '0 auto',
+        fontSize: '75px',
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeight: '400',
+        color: 'rgba(255,255,255,1)',
+        textAlign: 'center',
+        marginTop: '20px'
     }
+
 }
 
 function sendMoney(recipientAddress, amount, callback) {
@@ -149,7 +214,7 @@ var PaymentModal = React.createClass({
         return {
             username: username,
             recipientAddress: null,
-            paymentAmount: "0.10",
+            paymentAmount: ".10",
             dollarsPerBtc: null
         }
     },
@@ -195,28 +260,42 @@ var PaymentModal = React.createClass({
                                 <span>&times;</span>
                             </button>
 
-                            <h3>zing!</h3>
+                            <h3>
+                                <a href="" onClick={this.props.hide}>
+                                    <svg viewBox="-349 284.5 92.2 44.5" className="zing-logo-reversed" style={styles.zingLogoReversed} alt="zing">
+                                    <g id="logo-zing-hd">
+                                        <path d="M-329.6,299.9c0,0.5-0.1,0.9-0.2,1.4c-0.1,0.5-0.4,0.8-0.6,1.1l-9.6,12.5h10.1v5h-18v-2.8 c0-0.3,0.1-0.6,0.2-1.1c0.1-0.4,0.4-0.8,0.7-1.2l9.6-12.7h-9.8v-5h17.6V299.9z"/>
+                                        <path d="M-314.4,319.9v-22.7h4.2c0.8,0,1.4,0.4,1.7,1.1l0.4,1.3c0.4-0.4,0.9-0.8,1.4-1.1c0.5-0.4,1-0.6,1.5-0.9 c0.5-0.2,1.1-0.4,1.7-0.6c0.6-0.1,1.3-0.2,2-0.2c1.2,0,2.3,0.2,3.3,0.6s1.8,1,2.4,1.8c0.7,0.8,1.2,1.7,1.5,2.7 c0.3,1.1,0.5,2.2,0.5,3.5v14.4h-6.8v-14.3c0-1.1-0.3-2-0.8-2.6s-1.3-0.9-2.3-0.9c-0.7,0-1.4,0.2-2.1,0.5c-0.7,0.3-1.3,0.8-1.9,1.3 V320h-6.7V319.9z"/>
+                                        <path d="M-280.7,296.8c1,0,1.9,0.1,2.7,0.3c0.9,0.2,1.6,0.5,2.4,0.8h6.9v2.5c0,0.4-0.1,0.7-0.3,0.9 c-0.2,0.2-0.6,0.4-1.1,0.5l-1.7,0.4c0.2,0.7,0.3,1.3,0.3,2c0,1.1-0.2,2.2-0.7,3.1c-0.5,0.9-1.1,1.7-2,2.3c-0.8,0.6-1.8,1.1-2.9,1.5 c-1.1,0.3-2.3,0.5-3.6,0.5c-0.7,0-1.4,0-2-0.1c-0.5,0.3-0.7,0.6-0.7,1s0.2,0.7,0.6,0.8c0.4,0.2,0.9,0.3,1.6,0.4 c0.7,0.1,1.4,0.1,2.3,0.1s1.7,0.1,2.6,0.2s1.8,0.2,2.6,0.4c0.9,0.2,1.6,0.5,2.3,0.9c0.7,0.4,1.2,1,1.6,1.7s0.6,1.6,0.6,2.7 c0,1-0.2,2-0.7,3s-1.2,1.8-2.2,2.6c-1,0.8-2.1,1.4-3.5,1.8c-1.4,0.5-3,0.7-4.8,0.7c-1.8,0-3.3-0.2-4.6-0.5c-1.3-0.3-2.4-0.8-3.2-1.3 c-0.9-0.5-1.5-1.2-1.9-1.9c-0.4-0.7-0.6-1.5-0.6-2.2c0-1,0.3-1.8,0.9-2.5c0.6-0.7,1.4-1.2,2.5-1.6c-0.6-0.3-1-0.8-1.3-1.3 c-0.3-0.5-0.5-1.2-0.5-2c0-0.3,0.1-0.7,0.2-1.1s0.3-0.7,0.5-1.1c0.2-0.4,0.6-0.7,0.9-1c0.4-0.3,0.8-0.6,1.4-0.9 c-1.2-0.6-2.1-1.5-2.8-2.5c-0.7-1-1-2.2-1-3.6c0-1.1,0.2-2.2,0.7-3.1c0.5-0.9,1.1-1.7,2-2.3c0.8-0.6,1.8-1.1,3-1.5 C-283.3,297-282.1,296.8-280.7,296.8z M-275.5,320.8c0-0.5-0.2-0.9-0.7-1.2c-0.5-0.2-1.1-0.4-1.9-0.5c-0.8-0.1-1.6-0.2-2.6-0.2 s-1.9-0.1-2.9-0.2c-0.4,0.3-0.8,0.6-1,1c-0.3,0.4-0.4,0.8-0.4,1.2c0,0.3,0.1,0.6,0.2,0.9c0.1,0.3,0.4,0.5,0.7,0.7 c0.4,0.2,0.8,0.3,1.4,0.4c0.6,0.1,1.3,0.2,2.2,0.2c1,0,1.8-0.1,2.4-0.2c0.6-0.1,1.1-0.3,1.5-0.5c0.4-0.2,0.6-0.4,0.8-0.7 C-275.6,321.4-275.5,321.1-275.5,320.8z M-280.7,307.4c1.1,0,1.9-0.3,2.4-0.8s0.8-1.3,0.8-2.2s-0.3-1.6-0.8-2.2 c-0.5-0.5-1.3-0.8-2.4-0.8c-1.1,0-1.9,0.3-2.4,0.8s-0.8,1.2-0.8,2.2c0,0.4,0.1,0.8,0.2,1.2c0.1,0.4,0.3,0.7,0.6,1 c0.3,0.3,0.6,0.5,1,0.6C-281.8,307.3-281.3,307.4-280.7,307.4z"/>
+                                        <path d="M-319.3,320.5v-15.3c0-1.3-0.1-2.7-0.2-4c-0.2-1.3-0.4-2.7-0.6-4h-4.6c-0.3,1.4-0.5,2.7-0.6,4 c-0.2,1.3-0.2,2.7-0.2,4v15.3H-319.3z"/>
+                                        <path d="M-326.3,289.5c0,0.5,0.1,1,0.3,1.5s0.5,0.8,0.8,1.2c0.3,0.3,0.7,0.6,1.2,0.7c0.5,0.2,1,0.3,1.5,0.3 s1-0.1,1.5-0.3c0.5-0.2,0.9-0.5,1.2-0.8c0.3-0.3,0.6-0.7,0.8-1.2c0.3-0.4,0.4-0.9,0.4-1.4s-0.1-1-0.3-1.5c-0.2-0.5-0.5-0.9-0.8-1.2 c-0.4-0.3-0.8-0.6-1.3-0.8s-1-0.3-1.5-0.3c-0.6,0-1.1,0.1-1.5,0.3c-0.5,0.2-0.9,0.5-1.2,0.8c-0.3,0.3-0.6,0.7-0.8,1.2 S-326.3,289-326.3,289.5z"/>
+                                        <path d="M-258.6,285.8v15.3c0,1.3-0.1,2.7-0.2,4c-0.2,1.3-0.4,2.7-0.6,4h-4.6c-0.3-1.4-0.5-2.7-0.6-4 c-0.2-1.3-0.2-2.7-0.2-4v-15.3H-258.6z"/>
+                                        <path d="M-265.7,316.8c0-0.5,0.1-1,0.3-1.5c0.2-0.5,0.5-0.8,0.8-1.2c0.3-0.3,0.7-0.6,1.2-0.8c0.5-0.2,1-0.3,1.5-0.3 s1,0.1,1.5,0.3c0.5,0.2,0.9,0.5,1.2,0.8c0.3,0.3,0.6,0.7,0.8,1.2c0.2,0.5,0.3,0.9,0.3,1.5c0,0.5-0.1,1-0.3,1.5 c-0.2,0.5-0.5,0.9-0.8,1.2c-0.4,0.3-0.8,0.6-1.2,0.8c-0.5,0.2-1,0.3-1.5,0.3c-0.6,0-1.1-0.1-1.5-0.3c-0.5-0.2-0.9-0.5-1.2-0.8 c-0.3-0.3-0.6-0.7-0.8-1.2S-265.7,317.3-265.7,316.8z"/>
+                                    </g>
+                                    </svg>
+                                </a>
+                            </h3>
 
                             { this.state.recipientAddress ?
-                            <div>
-                                <p>Send money to:</p>
+                            <div className="center-wrap" style={styles.centerWrap}>
+                                <p className="send-money" style={styles.sendMoney}>Send money to</p>
 
                                 <div>
-                                    <h4>@{this.state.username}</h4>
-                                    <p>{this.state.recipientAddress}</p>
+                                    <h4 className="at-username" style={styles.atUsername}>@{this.state.username}</h4>
+                                    <p className="source-font" style={styles.sourceFont}>{this.state.recipientAddress}</p>
                                 </div>
 
-                                <div className="input-group">
+                                <div className="input-group" style={styles.inputGroup}>
                                     <span className="input-group-addon">$ </span>
-                                    <input type="text" className="form-control" style={styles.formControl}
+                                    <input type="text" className="form-control" autofocus style={styles.formControl}
                                         placeholder="Amount" value={this.state.paymentAmount}
                                         onChange={this.updateValue} />
                                 </div>
                             </div>
                             :
-                            <div>
-                                <p>Could not find any payment info for this user.</p>
-                                <p>To send them money, make sure they have a blockchain ID with a Bitcoin address and a {this.props.service} verification.</p>
+                            <div className="global-type" style={styles.globalType}>
+                                <p style={styles.globalType}>Could not find any payment info for this user.</p>
+                                <p style={styles.globalType}>To send them money, make sure they have a blockchain ID with a Bitcoin address and a {this.props.service} verification.</p>
                             </div>
                             }
                         </div>
