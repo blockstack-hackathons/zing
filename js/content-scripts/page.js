@@ -48,10 +48,8 @@ var styles = {
         opacity: '0.2'
     },
     formControl: {
-        height: '34px',
         padding: '6px 12px',
-        fontSize: '14px',
-        lineHeight: '1.42857143',
+        fontSize: '150px',
         color: 'rgba(255,255,255,1)',
         backgroundColor: 'transparent',
         backgroundImage: 'none',
@@ -66,7 +64,7 @@ var styles = {
         display: 'block',
         fill: 'rgba(255,255,255,1)',
         width: '47px;',
-        margin: '0 auto'
+        margin: '3px auto 0 auto'
     },
     globalType: {
         fontFamily: 'Open Sans, sans-serif',
@@ -83,11 +81,12 @@ var styles = {
     sendMoney: {
         display: 'block',
         margin: '0 auto',
+        fontSize: '12px',
         fontFamily: 'Open Sans, sans-serif',
-        fontWeight: '400',
+        fontWeight: '300',
         color: 'rgba(255,255,255,1)',
         textAlign: 'center',
-        marginTop: '15px'
+        marginTop: '30px'
     },
     atUsername: {
         display: 'block',
@@ -96,16 +95,27 @@ var styles = {
         fontWeight: '400',
         color: 'rgba(255,255,255,1)',
         textAlign: 'center',
-        marginTop: '15px'
+        marginTop: '13px'
     },
     sourceFont: {
         display: 'block',
         margin: '0 auto',
+        fontSize: '12px',
         fontFamily: 'Source Code Pro, sans-serif',
         fontWeight: '400',
         color: '#a9c3f4',
         textAlign: 'center',
-        marginTop: '3px'
+        marginTop: '4px'
+    },
+    inputGroup: {
+        display: 'block',
+        margin: '0 auto',
+        fontSize: '75px',
+        fontFamily: 'Montserrat, sans-serif',
+        fontWeight: '400',
+        color: 'rgba(255,255,255,1)',
+        textAlign: 'center',
+        marginTop: '20px'
     }
 
 };
@@ -205,7 +215,7 @@ var PaymentModal = React.createClass({
         return {
             username: username,
             recipientAddress: null,
-            paymentAmount: "0.10",
+            paymentAmount: ".10",
             dollarsPerBtc: null
         };
     },
@@ -313,13 +323,13 @@ var PaymentModal = React.createClass({
                                 ),
                                 React.createElement(
                                     'div',
-                                    { className: 'input-group' },
+                                    { className: 'input-group', style: styles.inputGroup },
                                     React.createElement(
                                         'span',
                                         { className: 'input-group-addon' },
                                         '$ '
                                     ),
-                                    React.createElement('input', { type: 'text', className: 'form-control', style: styles.formControl,
+                                    React.createElement('input', { type: 'text', className: 'form-control', autofocus: true, style: styles.formControl,
                                         placeholder: 'Amount', value: this.state.paymentAmount,
                                         onChange: this.updateValue })
                                 )
