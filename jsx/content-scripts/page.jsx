@@ -131,7 +131,7 @@ var PaymentModal = React.createClass({
     render: function() {
         return (
             <div>
-                <div className="modal" style={styles.modal}>
+                <div className="modal zing-modal" style={styles.modal}>
                   <div className="modal-dialog" style={styles.modalDialog}>
                     <div className="modal-content" style={styles.modalContent}>
                         <div className="modal-body" style={styles.modalBody}>
@@ -204,6 +204,7 @@ var GithubPageAddition = React.createClass({
         this.setState({
             showPaymentModal: true
         })
+        $('.zing-modal').show()
     },
     hidePaymentModal: function() {
         this.setState({
@@ -232,7 +233,7 @@ var TwitterPageAddition = React.createClass({
         this.setState({
             showPaymentModal: true
         })
-        $('.modal').show()
+        $('.zing-modal').show()
         $('body').addClass('modal-enabled')
     },
     hidePaymentModal: function() {
@@ -280,11 +281,11 @@ if (window.location.hostname === 'twitter.com') {
 }
 
 $(document).mouseup(function (e) {
-    var container = $('.modal')
+    var container = $('.zing-modal')
 
     if (!container.is(e.target) // if the target of the click isn't the container...
         && container.has(e.target).length === 0) // ... nor a descendant of the container
     {
         container.hide()
     }
-});
+})
