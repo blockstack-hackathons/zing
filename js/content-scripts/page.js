@@ -4,7 +4,6 @@ var SATOSHIS_PER_BITCOIN = 100000000;
 var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage);
 
 var styles = {
-
     modal: {
         position: 'fixed',
         display: 'table',
@@ -65,7 +64,8 @@ var styles = {
     },
     userNotFound: {
         fontFamily: 'Open Sans, sans-serif',
-        fontWeight: '300'
+        fontWeight: '400',
+        color: 'rgba(255,255,255,1)'
     }
 };
 
@@ -288,6 +288,7 @@ var PaymentModal = React.createClass({
                                 React.createElement(
                                     'p',
                                     null,
+                                    this.state.color || "white",
                                     'Could not find any payment info for this user.'
                                 ),
                                 React.createElement(
