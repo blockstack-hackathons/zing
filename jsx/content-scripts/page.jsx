@@ -53,6 +53,10 @@ var styles = {
         border: '1px solid #ccc',
         borderRadius: '4px',
         boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075)'
+    },
+    zingLogoReversed: {
+        fill: 'rgba(255,255,255,1);', 
+        width: '90px;'
     }
 }
 
@@ -197,7 +201,7 @@ var PaymentModal = React.createClass({
 
                             <h3>
                                 <a href="/">
-                                    <svg viewBox="-349 284.5 92.2 44.5" class="zing-logo-reversed" alt="zing">
+                                    <svg viewBox="-349 284.5 92.2 44.5" className="zing-logo-reversed" style={styles.zingLogoReversed} alt="zing">
                                     <g id="logo-zing-hd">
                                         <path d="M-329.6,299.9c0,0.5-0.1,0.9-0.2,1.4c-0.1,0.5-0.4,0.8-0.6,1.1l-9.6,12.5h10.1v5h-18v-2.8 c0-0.3,0.1-0.6,0.2-1.1c0.1-0.4,0.4-0.8,0.7-1.2l9.6-12.7h-9.8v-5h17.6V299.9z"/>
                                         <path d="M-314.4,319.9v-22.7h4.2c0.8,0,1.4,0.4,1.7,1.1l0.4,1.3c0.4-0.4,0.9-0.8,1.4-1.1c0.5-0.4,1-0.6,1.5-0.9 c0.5-0.2,1.1-0.4,1.7-0.6c0.6-0.1,1.3-0.2,2-0.2c1.2,0,2.3,0.2,3.3,0.6s1.8,1,2.4,1.8c0.7,0.8,1.2,1.7,1.5,2.7 c0.3,1.1,0.5,2.2,0.5,3.5v14.4h-6.8v-14.3c0-1.1-0.3-2-0.8-2.6s-1.3-0.9-2.3-0.9c-0.7,0-1.4,0.2-2.1,0.5c-0.7,0.3-1.3,0.8-1.9,1.3 V320h-6.7V319.9z"/>

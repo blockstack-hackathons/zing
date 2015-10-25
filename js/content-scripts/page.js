@@ -52,6 +52,10 @@ var styles = {
         border: '1px solid #ccc',
         borderRadius: '4px',
         boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075)'
+    },
+    zingLogoReversed: {
+        fill: 'rgba(255,255,255,1);',
+        width: '90px;'
     }
 };
 
@@ -218,7 +222,7 @@ var PaymentModal = React.createClass({
                                     { href: '/' },
                                     React.createElement(
                                         'svg',
-                                        { viewBox: '-349 284.5 92.2 44.5', 'class': 'zing-logo-reversed', alt: 'zing' },
+                                        { viewBox: '-349 284.5 92.2 44.5', className: 'zing-logo-reversed', style: styles.zingLogoReversed, alt: 'zing' },
                                         React.createElement(
                                             'g',
                                             { id: 'logo-zing-hd' },
