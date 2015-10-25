@@ -54,8 +54,10 @@ var styles = {
         boxShadow: 'inset 0 1pd 1pd rgba(0,0,0,.075)'
     },
     zingLogoReversed: {
+        display: 'block',
         fill: 'rgba(255,255,255,1);',
-        width: '47px;'
+        width: '47px;',
+        margin: '0 auto'
     }
 };
 
