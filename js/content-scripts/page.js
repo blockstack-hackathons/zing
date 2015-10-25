@@ -236,7 +236,7 @@ var PaymentModal = React.createClass({
         return {
             username: username,
             recipientAddress: null,
-            paymentAmount: ".10",
+            paymentAmount: "1",
             dollarsPerBtc: null
         };
     },
