@@ -28,22 +28,49 @@ function sendMoney(recipientAddress, amount, callback) {
     })
 }
 
+function getTicker(callback) {
+    $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: 'https://blockchain.info/ticker',
+        crossDomain: true,
+        success: function(results) {
+            callback(null, results)
+        },
+        error: function(err) {
+            jsonError = JSON.stringify(err)
+            callback(jsonError, null)
+        }
+    })
+}
+
 var PaymentModal = React.createClass({
     getInitialState: function() {
         return {
             twitterHandle: window.location.pathname.split('/')[1],
             recipientAddress: '1DyVgc6L2kXnv96R4FCzNaMQ8iWPzHQX3T',
-            paymentAmount: 0.0001
+            paymentAmount: "0.10",
+            dollarsPerBtc: null
         }
+    },
+    componentDidMount: function() {
+        var _this = this
+        getTicker(function(err, data) {
+            _this.setState({
+                dollarsPerBtc: data['USD']['last']
+            })
+        })
     },
     submitSendForm: function() {
         var _this = this
-        sendMoney(this.state.recipientAddress, this.state.paymentAmount, function() {
-            _this.props.hide()
-        })
+        if (this.state.dollarsPerBtc) {
+            var btcAmount = (this.state.paymentAmount / this.state.dollarsPerBtc).toFixed(8)
+            sendMoney(this.state.recipientAddress, btcAmount, function() {
+                _this.props.hide()
+            })
+        }
     },
     updateValue: function(event) {
-        console.log(event)
         this.setState({
             paymentAmount: event.target.value
         })
@@ -56,15 +83,11 @@ var PaymentModal = React.createClass({
             zIndex: '999999',
             overflow: 'hidden'
         }
-        var modalDialogStyle = {
-            display: 'block',
-            position: 'relative'
-        }
 
         return (
             <div>
                 <div className="modal" style={modalStyle}>
-                  <div className="modal-dialog" style={modalDialogStyle}>
+                  <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-body">
                             <button type="button" className="close" onClick={this.props.hide}>
@@ -81,7 +104,7 @@ var PaymentModal = React.createClass({
                             </div>
 
                             <div className="input-group">
-                                <span className="input-group-addon">BTC </span>
+                                <span className="input-group-addon">$ </span>
                                 <input type="text" className="form-control"
                                     placeholder="Amount" value={this.state.paymentAmount}
                                     onChange={this.updateValue} />

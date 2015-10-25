@@ -44,6 +44,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 	if (message.method === 'pushTransaction') {
 		pushTransaction(message.txSerialized, message.txHash, null, function() {
 		})
+		sendResponse(true)
 	}
-	sendResponse(true)
 })

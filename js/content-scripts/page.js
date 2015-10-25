@@ -28,6 +28,22 @@ function sendMoney(recipientAddress, amount, callback) {
     });
 }
 
+function getTicker(callback) {
+    $.ajax({
+        type: "GET",
+        dataType: 'json',
+        url: 'https://blockchain.info/ticker',
+        crossDomain: true,
+        success: function success(results) {
+            callback(null, results);
+        },
+        error: function error(err) {
+            jsonError = JSON.stringify(err);
+            callback(jsonError, null);
+        }
+    });
+}
+
 var PaymentModal = React.createClass({
     displayName: "PaymentModal",
 
@@ -35,17 +51,28 @@ var PaymentModal = React.createClass({
         return {
             twitterHandle: window.location.pathname.split('/')[1],
             recipientAddress: '1DyVgc6L2kXnv96R4FCzNaMQ8iWPzHQX3T',
-            paymentAmount: 0.0001
+            paymentAmount: "0.10",
+            dollarsPerBtc: null
         };
+    },
+    componentDidMount: function componentDidMount() {
+        var _this = this;
+        getTicker(function (err, data) {
+            _this.setState({
+                dollarsPerBtc: data['USD']['last']
+            });
+        });
     },
     submitSendForm: function submitSendForm() {
         var _this = this;
-        sendMoney(this.state.recipientAddress, this.state.paymentAmount, function () {
-            _this.props.hide();
-        });
+        if (this.state.dollarsPerBtc) {
+            var btcAmount = (this.state.paymentAmount / this.state.dollarsPerBtc).toFixed(8);
+            sendMoney(this.state.recipientAddress, btcAmount, function () {
+                _this.props.hide();
+            });
+        }
     },
     updateValue: function updateValue(event) {
-        console.log(event);
         this.setState({
             paymentAmount: event.target.value
         });
@@ -58,10 +85,6 @@ var PaymentModal = React.createClass({
             zIndex: '999999',
             overflow: 'hidden'
         };
-        var modalDialogStyle = {
-            display: 'block',
-            position: 'relative'
-        };
 
         return React.createElement(
             "div",
@@ -71,7 +94,7 @@ var PaymentModal = React.createClass({
                 { className: "modal", style: modalStyle },
                 React.createElement(
                     "div",
-                    { className: "modal-dialog", style: modalDialogStyle },
+                    { className: "modal-dialog" },
                     React.createElement(
                         "div",
                         { className: "modal-content" },
@@ -118,7 +141,7 @@ var PaymentModal = React.createClass({
                                 React.createElement(
                                     "span",
                                     { className: "input-group-addon" },
-                                    "BTC "
+                                    "$ "
                                 ),
                                 React.createElement("input", { type: "text", className: "form-control",
                                     placeholder: "Amount", value: this.state.paymentAmount,
