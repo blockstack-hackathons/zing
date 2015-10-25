@@ -17,6 +17,7 @@
     "angular-route": "1.2.x",
     "bootswatch": "3.0.x",
     "jquery": "2.0.x",
-    "spin.js": "*"
+    "spin.js": "*",
+    "cleanslate": "~0.10.1"
   }
 }
