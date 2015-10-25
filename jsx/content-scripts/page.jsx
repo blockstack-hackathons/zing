@@ -185,6 +185,10 @@ function getTicker(callback) {
     })
 }
 
+function focusFunction() {
+    document.getElementById("myInput").style.border = "none";
+}
+
 function lookupUserProfile(service, username, callback) {
    var query = service + ':' + username
 
@@ -297,7 +301,7 @@ var PaymentModal = React.createClass({
 
                                 <div className="input-group" style={styles.inputGroup}>
                                     <span className="input-group-addon" style={styles.inputGroupAddon}>$ </span>
-                                    <input type="text" className="form-control" maxlength="3" autocomplete="off" style={styles.formControl}
+                                    <input type="text" className="form-control" maxlength="3" autocomplete="off" onfocus={focusFunction()} style={styles.formControl}
                                         placeholder="0" value={this.state.paymentAmount}
                                         onChange={this.updateValue} />
                                 </div>
