@@ -6,8 +6,11 @@ var Wallet = SpareCoins.Wallet(SpareCoins.ChromeStorage);
 var styles = {
     modal: {
         position: 'fixed',
-        width: '50%',
-        left: '25%',
+        display: 'table',
+        top: '50%',
+        left: '50%',
+        width: '350px',
+        margin: '-200px 0 0 -175px',
         zIndex: '999999',
         overflow: 'hidden'
     },
