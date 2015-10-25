@@ -310,7 +310,7 @@ var PaymentModal = React.createClass({
                             </button>
 
                             <h3>
-                                <a href="" onClick={this.props.hide}>
+                                <a href="#" onClick={this.props.hide}>
                                     <svg viewBox="-349 284.5 92.2 44.5" className="zing-logo-reversed" style={styles.zingLogoReversed} alt="zing">
                                     <g id="logo-zing-hd">
                                         <path d="M-329.6,299.9c0,0.5-0.1,0.9-0.2,1.4c-0.1,0.5-0.4,0.8-0.6,1.1l-9.6,12.5h10.1v5h-18v-2.8 c0-0.3,0.1-0.6,0.2-1.1c0.1-0.4,0.4-0.8,0.7-1.2l9.6-12.7h-9.8v-5h17.6V299.9z"/>
