@@ -56,7 +56,7 @@ var styles = {
     },
     zingLogoReversed: {
         fill: 'rgba(255,255,255,1);', 
-        width: '90px;'
+        width: '47px;'
     }
 }
 
