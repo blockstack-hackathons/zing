@@ -97,11 +97,58 @@ function getTicker(callback) {
     })
 }
 
+function lookupUserProfile(service, username, callback) {
+    var directory = {
+        'twitter:ryaneshea': {
+            profile: {
+                bitcoin: {
+                    address: '1LFS37yRSibwbf8CnXeCn5t1GKeTEZMmu9'
+                }
+            }
+        },
+        'github:shea256': {
+            profile: {
+                bitcoin: {
+                    address: '1LFS37yRSibwbf8CnXeCn5t1GKeTEZMmu9'
+                }
+            }
+        },
+        'twitter:muneeb': {
+            profile: {
+                bitcoin: {
+                    address: '1LNLCwtigWAvLkNakUK4jnmmvdVvmULeES'
+                }
+            }
+        },
+        'github:muneeb-ali': {
+            profile: {
+                bitcoin: {
+                    address: '1LNLCwtigWAvLkNakUK4jnmmvdVvmULeES'
+                }
+            }
+        }
+    }
+
+    var lookupValue = service + ':' + username
+    if (lookupValue in directory) {
+        callback(null, directory[lookupValue].profile)
+    } else {
+        callback('no record found', null)
+    }
+}
+
 var PaymentModal = React.createClass({
     getInitialState: function() {
+        var username = ''
+        if (this.props.service === 'twitter') {
+            username = window.location.pathname.split('/')[1]
+        } else if (this.props.service === 'github') {
+            username = window.location.pathname.split('/')[1]
+        }
+
         return {
-            twitterHandle: window.location.pathname.split('/')[1],
-            recipientAddress: '1DyVgc6L2kXnv96R4FCzNaMQ8iWPzHQX3T',
+            username: username,
+            recipientAddress: null,
             paymentAmount: "0.10",
             dollarsPerBtc: null
         }
@@ -112,6 +159,15 @@ var PaymentModal = React.createClass({
             _this.setState({
                 dollarsPerBtc: data['USD']['last']
             })
+        })
+        lookupUserProfile(this.props.service, this.state.username, function(err, data) {
+            if (err) {
+                console.log(err)
+            } else {
+                _this.setState({
+                    recipientAddress: data.bitcoin.address
+                })
+            }
         })
     },
     submitSendForm: function() {
@@ -140,24 +196,35 @@ var PaymentModal = React.createClass({
                             </button>
 
                             <h3>zing!</h3>
-                            
-                            <p>Send money to:</p>
 
+                            { this.state.recipientAddress ?
                             <div>
-                                <h4>@{this.state.twitterHandle}</h4>
-                                <p>{this.state.recipientAddress}</p>
-                            </div>
+                                <p>Send money to:</p>
 
-                            <div className="input-group">
-                                <span className="input-group-addon">$ </span>
-                                <input type="text" className="form-control" style={styles.formControl}
-                                    placeholder="Amount" value={this.state.paymentAmount}
-                                    onChange={this.updateValue} />
+                                <div>
+                                    <h4>@{this.state.username}</h4>
+                                    <p>{this.state.recipientAddress}</p>
+                                </div>
+
+                                <div className="input-group">
+                                    <span className="input-group-addon">$ </span>
+                                    <input type="text" className="form-control" style={styles.formControl}
+                                        placeholder="Amount" value={this.state.paymentAmount}
+                                        onChange={this.updateValue} />
+                                </div>
                             </div>
+                            :
+                            <div>
+                                <p>Could not find any payment info for this user.</p>
+                                <p>To send them money, make sure they have a blockchain ID with a Bitcoin address and a {this.props.service} verification.</p>
+                            </div>
+                            }
                         </div>
+                        { this.state.recipientAddress ?
                         <div className="modal-footer" style={styles.modalFooter}>
                             <button type="button" className="btn" onClick={this.submitSendForm}>Send</button>
                         </div>
+                        : null }
                     </div>
                   </div>
                 </div>
@@ -216,7 +283,7 @@ var GithubPageAddition = React.createClass({
             <div>
                 <GithubPaymentButton onClick={this.showPaymentModal} />
                 { this.state.showPaymentModal ?
-                <PaymentModal hide={this.hidePaymentModal} />
+                <PaymentModal hide={this.hidePaymentModal} service='github' />
                 : null }
             </div>
         )
@@ -247,7 +314,7 @@ var TwitterPageAddition = React.createClass({
             <div>
                 <TwitterPaymentButton onClick={this.showPaymentModal} />
                 { this.state.showPaymentModal ?
-                <PaymentModal hide={this.hidePaymentModal} />
+                <PaymentModal hide={this.hidePaymentModal} service='twitter' />
                 : null }
             </div>
         )
@@ -255,21 +322,15 @@ var TwitterPageAddition = React.createClass({
 })
 
 if (window.location.hostname === 'twitter.com') {
+    // Add the payment button to the Twitter page
     var buttonElement = document.createElement('div')
     buttonElement.id = 'zing-button'
     
     var container = document.getElementsByClassName('ProfileMessagingActions')[0]
     container.appendChild(buttonElement)
     React.render(React.createElement(TwitterPageAddition, {}), document.getElementById('zing-button'))
-
-    /*
-    var modalElement = document.createElement('div')
-    modalElement.id = 'zing-modal'
-
-    document.body.appendChild(modalElement)
-    React.render(React.createElement(PaymentModal, {}), document.getElementById('zing-modal'))
-    */
 } else if (window.location.hostname === 'github.com') {
+    // Add the payment button to the GitHub page
     var buttonElement = document.createElement('div')
     buttonElement.id = 'zing-button'
     buttonElement.style.display = 'inline-block'
@@ -278,6 +339,7 @@ if (window.location.hostname === 'twitter.com') {
     container.insertBefore(buttonElement, container.firstChild)
     React.render(React.createElement(GithubPageAddition, {}), document.getElementById('zing-button'))
 } else {
+    // Do nothing
 }
 
 $(document).mouseup(function (e) {
@@ -287,5 +349,8 @@ $(document).mouseup(function (e) {
         && container.has(e.target).length === 0) // ... nor a descendant of the container
     {
         container.hide()
+        if (window.location.hostname === 'twitter.com') {
+            $('body').removeClass('modal-enabled')
+        }
     }
 })

@@ -96,13 +96,60 @@ function getTicker(callback) {
     });
 }
 
+function lookupUserProfile(service, username, callback) {
+    var directory = {
+        'twitter:ryaneshea': {
+            profile: {
+                bitcoin: {
+                    address: '1LFS37yRSibwbf8CnXeCn5t1GKeTEZMmu9'
+                }
+            }
+        },
+        'github:shea256': {
+            profile: {
+                bitcoin: {
+                    address: '1LFS37yRSibwbf8CnXeCn5t1GKeTEZMmu9'
+                }
+            }
+        },
+        'twitter:muneeb': {
+            profile: {
+                bitcoin: {
+                    address: '1LNLCwtigWAvLkNakUK4jnmmvdVvmULeES'
+                }
+            }
+        },
+        'github:muneeb-ali': {
+            profile: {
+                bitcoin: {
+                    address: '1LNLCwtigWAvLkNakUK4jnmmvdVvmULeES'
+                }
+            }
+        }
+    };
+
+    var lookupValue = service + ':' + username;
+    if (lookupValue in directory) {
+        callback(null, directory[lookupValue].profile);
+    } else {
+        callback('no record found', null);
+    }
+}
+
 var PaymentModal = React.createClass({
     displayName: 'PaymentModal',
 
     getInitialState: function getInitialState() {
+        var username = '';
+        if (this.props.service === 'twitter') {
+            username = window.location.pathname.split('/')[1];
+        } else if (this.props.service === 'github') {
+            username = window.location.pathname.split('/')[1];
+        }
+
         return {
-            twitterHandle: window.location.pathname.split('/')[1],
-            recipientAddress: '1DyVgc6L2kXnv96R4FCzNaMQ8iWPzHQX3T',
+            username: username,
+            recipientAddress: null,
             paymentAmount: "0.10",
             dollarsPerBtc: null
         };
@@ -113,6 +160,15 @@ var PaymentModal = React.createClass({
             _this.setState({
                 dollarsPerBtc: data['USD']['last']
             });
+        });
+        lookupUserProfile(this.props.service, this.state.username, function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                _this.setState({
+                    recipientAddress: data.bitcoin.address
+                });
+            }
         });
     },
     submitSendForm: function submitSendForm() {
@@ -159,40 +215,59 @@ var PaymentModal = React.createClass({
                                 null,
                                 'zing!'
                             ),
-                            React.createElement(
-                                'p',
-                                null,
-                                'Send money to:'
-                            ),
-                            React.createElement(
+                            this.state.recipientAddress ? React.createElement(
                                 'div',
                                 null,
                                 React.createElement(
-                                    'h4',
+                                    'p',
                                     null,
-                                    '@',
-                                    this.state.twitterHandle
+                                    'Send money to:'
+                                ),
+                                React.createElement(
+                                    'div',
+                                    null,
+                                    React.createElement(
+                                        'h4',
+                                        null,
+                                        '@',
+                                        this.state.username
+                                    ),
+                                    React.createElement(
+                                        'p',
+                                        null,
+                                        this.state.recipientAddress
+                                    )
+                                ),
+                                React.createElement(
+                                    'div',
+                                    { className: 'input-group' },
+                                    React.createElement(
+                                        'span',
+                                        { className: 'input-group-addon' },
+                                        '$ '
+                                    ),
+                                    React.createElement('input', { type: 'text', className: 'form-control', style: styles.formControl,
+                                        placeholder: 'Amount', value: this.state.paymentAmount,
+                                        onChange: this.updateValue })
+                                )
+                            ) : React.createElement(
+                                'div',
+                                null,
+                                React.createElement(
+                                    'p',
+                                    null,
+                                    'Could not find any payment info for this user.'
                                 ),
                                 React.createElement(
                                     'p',
                                     null,
-                                    this.state.recipientAddress
+                                    'To send them money, make sure they have a blockchain ID with a Bitcoin address and a ',
+                                    this.props.service,
+                                    ' verification.'
                                 )
-                            ),
-                            React.createElement(
-                                'div',
-                                { className: 'input-group' },
-                                React.createElement(
-                                    'span',
-                                    { className: 'input-group-addon' },
-                                    '$ '
-                                ),
-                                React.createElement('input', { type: 'text', className: 'form-control', style: styles.formControl,
-                                    placeholder: 'Amount', value: this.state.paymentAmount,
-                                    onChange: this.updateValue })
                             )
                         ),
-                        React.createElement(
+                        this.state.recipientAddress ? React.createElement(
                             'div',
                             { className: 'modal-footer', style: styles.modalFooter },
                             React.createElement(
@@ -200,7 +275,7 @@ var PaymentModal = React.createClass({
                                 { type: 'button', className: 'btn', onClick: this.submitSendForm },
                                 'Send'
                             )
-                        )
+                        ) : null
                     )
                 )
             )
@@ -272,7 +347,7 @@ var GithubPageAddition = React.createClass({
             'div',
             null,
             React.createElement(GithubPaymentButton, { onClick: this.showPaymentModal }),
-            this.state.showPaymentModal ? React.createElement(PaymentModal, { hide: this.hidePaymentModal }) : null
+            this.state.showPaymentModal ? React.createElement(PaymentModal, { hide: this.hidePaymentModal, service: 'github' }) : null
         );
     }
 });
@@ -303,34 +378,31 @@ var TwitterPageAddition = React.createClass({
             'div',
             null,
             React.createElement(TwitterPaymentButton, { onClick: this.showPaymentModal }),
-            this.state.showPaymentModal ? React.createElement(PaymentModal, { hide: this.hidePaymentModal }) : null
+            this.state.showPaymentModal ? React.createElement(PaymentModal, { hide: this.hidePaymentModal, service: 'twitter' }) : null
         );
     }
 });
 
 if (window.location.hostname === 'twitter.com') {
+    // Add the payment button to the Twitter page
     var buttonElement = document.createElement('div');
     buttonElement.id = 'zing-button';
 
     var container = document.getElementsByClassName('ProfileMessagingActions')[0];
     container.appendChild(buttonElement);
     React.render(React.createElement(TwitterPageAddition, {}), document.getElementById('zing-button'));
-
-    /*
-    var modalElement = document.createElement('div')
-    modalElement.id = 'zing-modal'
-     document.body.appendChild(modalElement)
-    React.render(React.createElement(PaymentModal, {}), document.getElementById('zing-modal'))
-    */
 } else if (window.location.hostname === 'github.com') {
-        var buttonElement = document.createElement('div');
-        buttonElement.id = 'zing-button';
-        buttonElement.style.display = 'inline-block';
+    // Add the payment button to the GitHub page
+    var buttonElement = document.createElement('div');
+    buttonElement.id = 'zing-button';
+    buttonElement.style.display = 'inline-block';
 
-        var container = document.getElementsByClassName('tabnav')[0].children[0];
-        container.insertBefore(buttonElement, container.firstChild);
-        React.render(React.createElement(GithubPageAddition, {}), document.getElementById('zing-button'));
-    } else {}
+    var container = document.getElementsByClassName('tabnav')[0].children[0];
+    container.insertBefore(buttonElement, container.firstChild);
+    React.render(React.createElement(GithubPageAddition, {}), document.getElementById('zing-button'));
+} else {
+    // Do nothing
+}
 
 $(document).mouseup(function (e) {
     var container = $('.zing-modal');
@@ -339,5 +411,8 @@ $(document).mouseup(function (e) {
      && container.has(e.target).length === 0) // ... nor a descendant of the container
         {
             container.hide();
+            if (window.location.hostname === 'twitter.com') {
+                $('body').removeClass('modal-enabled');
+            }
         }
 });
