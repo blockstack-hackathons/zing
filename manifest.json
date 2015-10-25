@@ -24,7 +24,24 @@
     "default_title": "zing! | Open Wallet",
     "default_popup": "index.html"
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "css": [
+      ],
+      "js": [
+        "js/bundle.js",
+        "js/content-scripts/page.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
   "permissions": [
+    "tabs",
     "unlimitedStorage",
     "storage"
   ],
