@@ -59,9 +59,13 @@ var styles = {
     },
     zingLogoReversed: {
         display: 'block',
-        fill: 'rgba(255,255,255,1);', 
+        fill: 'rgba(255,255,255,1)', 
         width: '47px;',
         margin: '0 auto'
+    },
+    userNotFound: {
+        fontFamily: 'Open Sans, sans-serif',
+        fontWeight: '300'
     }
 }
 
@@ -237,7 +241,7 @@ var PaymentModal = React.createClass({
                                 </div>
                             </div>
                             :
-                            <div>
+                            <div className="user-not-found" style={styles.userNotFound}>
                                 <p>Could not find any payment info for this user.</p>
                                 <p>To send them money, make sure they have a blockchain ID with a Bitcoin address and a {this.props.service} verification.</p>
                             </div>
@@ -252,6 +256,25 @@ var PaymentModal = React.createClass({
                   </div>
                 </div>
             </div>
+
+
+
+<script type="text/javascript">
+  WebFontConfig = {
+    google: { families: [ 'Montserrat:400,700:latin', 'Open+Sans:400,300,300italic,400italic,600,600italic:latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })(); </script>
+
+
+
         )
     }
 })

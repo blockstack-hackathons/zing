@@ -61,6 +61,9 @@ var styles = {
         fill: 'rgba(255,255,255,1);',
         width: '47px;',
         margin: '0 auto'
+    },
+    userNotFound: {
+        fontFamily: 'Montserrat, sans-serif'
     }
 };
 
@@ -279,7 +282,7 @@ var PaymentModal = React.createClass({
                                 )
                             ) : React.createElement(
                                 'div',
-                                null,
+                                { className: 'user-not-found', style: styles.userNotFound },
                                 React.createElement(
                                     'p',
                                     null,
