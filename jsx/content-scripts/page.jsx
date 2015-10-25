@@ -186,9 +186,9 @@ function getTicker(callback) {
 }
 
 function lookupUserProfile(service, username, callback) {
-   /*var query = service + ':' + username
+   var query = service + ':' + username
 
-    var url = 'http://search.onename.com/search/payment?query=' + query
+    var url = 'https://api.onename.com/v1/search/payment?query=' + query
 
     console.log(url)
 
@@ -197,9 +197,8 @@ function lookupUserProfile(service, username, callback) {
         dataType: 'json',
         url: url,
         crossDomain: true,
-        success: function(results) {
-            console.log(results)
-            var item = results[0]
+        success: function(data) {
+            var item = data.results[0]
             console.log(item)
             var response = item[Object.keys(item)[0]]
             callback(null, response)
@@ -209,45 +208,7 @@ function lookupUserProfile(service, username, callback) {
             jsonError = JSON.stringify(err)
             callback(jsonError, null)
         }
-    })*/
-
-    var directory = {
-        'twitter:ryaneshea': {
-            profile: {
-                bitcoin: {
-                    address: '1DyVgc6L2kXnv96R4FCzNaMQ8iWPzHQX3T'
-                }
-            }
-        },
-        'github:shea256': {
-            profile: {
-                bitcoin: {
-                    address: '1DyVgc6L2kXnv96R4FCzNaMQ8iWPzHQX3T'
-                }
-            }
-        },
-        'twitter:muneeb': {
-            profile: {
-                bitcoin: {
-                    address: '1LNLCwtigWAvLkNakUK4jnmmvdVvmULeES'
-                }
-            }
-        },
-        'github:muneeb-ali': {
-            profile: {
-                bitcoin: {
-                    address: '1LNLCwtigWAvLkNakUK4jnmmvdVvmULeES'
-                }
-            }
-        }
-    }
-
-    var lookupValue = service + ':' + username
-    if (lookupValue in directory) {
-        callback(null, directory[lookupValue].profile)
-    } else {
-        callback('no record found', null)
-    }
+    })
 }
 
 var PaymentModal = React.createClass({
