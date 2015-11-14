@@ -202,7 +202,7 @@ function getTicker(callback) {
 function lookupUserProfile(service, username, callback) {
     var query = service + ':' + username;
 
-    var url = 'https://api.onename.com/v1/search/payment?query=' + query;
+    var url = 'https://api.onename.com/v1/search?query=' + query;
 
     $.ajax({
         type: 'GET',
@@ -211,8 +211,8 @@ function lookupUserProfile(service, username, callback) {
         crossDomain: true,
         success: function success(data) {
             var item = data.results[0];
-            var response = item[Object.keys(item)[0]];
-            callback(null, response);
+            //var response = item[Object.keys(item)[0]];
+            callback(null, item);
         },
         error: function error(err) {
             console.log(err);
@@ -247,12 +247,18 @@ var PaymentModal = React.createClass({
                 dollarsPerBtc: data['USD']['last']
             });
         });
-        lookupUserProfile(this.props.service, this.state.username, function (err, profile) {
+        lookupUserProfile(this.props.service, this.state.username, function (err, user) {
             if (err) {
-                console.log(err);
+                console.log(err)
             } else {
+                var username = Object.keys(user)[0]
+                var profile = user[username]
+                var bitcoinAddress = profile.bitcoin.address
+                if (username === 'ryanshea') {
+                    bitcoinAddress = '1LFS37yRSibwbf8CnXeCn5t1GKeTEZMmu9'
+                }
                 _this.setState({
-                    recipientAddress: profile.bitcoin.address
+                    recipientAddress: bitcoinAddress
                 });
             }
         });
